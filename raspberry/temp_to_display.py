@@ -39,6 +39,13 @@ def get_sensor_data(dht_device):
         time.sleep(2)  # Wait before retrying
 
 
+def start_message(display):
+    display.text(10, 10, "Start")
+    display.text(10, 30, "Monitoring")
+    display.show()
+    time.sleep(2)
+    display.clear()
+
 def main():
     # Initialize the OLED display (adjust width and height as needed)
     WIDTH = 128
@@ -55,8 +62,10 @@ def main():
     font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 14)
 
     display = Display(oled)
+    
+    start_message(display)
 
-    try:    
+    try:   
         run = True
         while run:
             temp, humidity = get_sensor_data(dht_device)
