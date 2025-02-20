@@ -62,7 +62,7 @@ def main():
         # Load custom font
         font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 14)
 
-        display = Display(oled, font=font)
+        display = Display(oled, font_path=font)
         
         start_message(display)
 
