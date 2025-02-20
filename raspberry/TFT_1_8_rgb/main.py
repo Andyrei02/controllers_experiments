@@ -33,7 +33,7 @@ for y in range(128):
     for x in range(160):
         color_bitmap[x, y] = 0  # Use the index 0, which corresponds to red in the palette
 
-bg_sprite = displayio.TileGrid(color_bitmap, pixel_shader=color_palette, x=0, y=0)
+bg_sprite = displayio.TileGrid(color_bitmap, pixel_shader=color_palette, x=5, y=5)
 splash.append(bg_sprite)
 
 # Clear the display before starting the loop
