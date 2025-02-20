@@ -3,9 +3,9 @@ import board
 import displayio
 import digitalio
 from adafruit_st7735r import ST7735R
-from adafruit_display_text.bitmap_font import BitmapFont  # Correct import
 from adafruit_display_text import label
 from adafruit_display_shapes.rect import Rect
+from adafruit_display_text import terminalio  # Import the terminal font
 
 
 # Release previous displays
@@ -40,12 +40,10 @@ for y in range(128):
 bg_sprite = displayio.TileGrid(color_bitmap, pixel_shader=None)
 splash.append(bg_sprite)
 
-# Load the default font from the library
-font = BitmapFont("/usr/local/lib/python3.11/site-packages/adafruit_display_text/font/arial14.bdf")  # Adjust the path accordingly
-
-# Create a label with the text
-text_area = label.Label(font, text="Hello, World!")
-text_area.y = 50  # Start position
+# Create a label with the terminal font
+text_area = label.Label(terminalio.FONT, text="Hello, World!")
+text_area.x = 10  # Starting position on the x-axis
+text_area.y = 50  # Starting position on the y-axis
 
 # Add the label to the display group
 splash.append(text_area)
@@ -55,9 +53,3 @@ while True:
     for x in range(160):
         text_area.x = x
         time.sleep(0.02)  # Adjust speed by changing the sleep duration
-        
-
-print("Displaying Red Background")
-
-while True:
-    pass
