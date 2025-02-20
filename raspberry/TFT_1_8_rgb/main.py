@@ -5,7 +5,7 @@ from adafruit_st7735 import ST7735
 
 # SPI Setup
 spi = board.SPI()
-dc = digitalio.DigitalInOut(board.D24)  # Data/Command pin
+# dc = digitalio.DigitalInOut(board.D24)  # Data/Command pin
 tft_dc = board.D25  # Reset pin
 tft_cs = board.CE0  # Chip Select
 
