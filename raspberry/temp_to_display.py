@@ -79,6 +79,7 @@ def main():
             display.show()
             
             time.sleep(5)
+            display.clear()
     except KeyboardInterrupt:
         print("\n[INFO] Program interrupted! Clearing display...")
         display.clear()
