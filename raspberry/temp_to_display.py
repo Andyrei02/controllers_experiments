@@ -6,7 +6,7 @@ from PIL import Image, ImageDraw, ImageFont
 import adafruit_ssd1306
 
 
-class Dispaly:
+class Display:
     def __init__(self, oled, font_path=None):
         self.oled = oled
         self.font = ImageFont.truetype(font_path) if font_path else ImageFont.load_default()
