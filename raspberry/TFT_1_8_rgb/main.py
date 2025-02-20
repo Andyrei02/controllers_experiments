@@ -15,7 +15,7 @@ rst.direction = digitalio.Direction.OUTPUT
 cs.direction = digitalio.Direction.OUTPUT
 
 # Initialize display
-disp = adafruit_st7735.ST7735(spi, dc=dc, rst=rst)
+disp = adafruit_st7735.ST7735(spi, rst=rst)
 
 # Clear screen (black)
 disp.fill(0)
