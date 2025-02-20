@@ -1,7 +1,7 @@
 import board
 import displayio
 import digitalio
-from adafruit_st7735r import ST7735R  # Make sure you use the correct driver!
+from adafruit_st7735 import ST7735  # Make sure you use the correct driver!
 
 # Release previous displays
 displayio.release_displays()
@@ -16,7 +16,7 @@ tft_rst = board.D25  # Reset
 display_bus = displayio.FourWire(spi, command=tft_dc, chip_select=tft_cs, reset=tft_rst)
 
 # Initialize Display
-display = ST7735R(display_bus, width=160, height=128, rotation=90)  # Rotation 90 if needed
+display = ST7735(display_bus, width=160, height=128, rotation=90)  # Rotation 90 if needed
 
 # Create Display Context
 splash = displayio.Group()
@@ -33,7 +33,7 @@ for y in range(128):
     for x in range(160):
         color_bitmap[x, y] = 0  # Use the index 0, which corresponds to red in the palette
 
-bg_sprite = displayio.TileGrid(color_bitmap, pixel_shader=color_palette, x=5, y=5)
+bg_sprite = displayio.TileGrid(color_bitmap, pixel_shader=color_palette, x=0, y=0)
 splash.append(bg_sprite)
 
 # Clear the display before starting the loop
