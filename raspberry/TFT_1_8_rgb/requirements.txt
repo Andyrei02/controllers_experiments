@@ -1,0 +1,2 @@
+adafruit-circuitpython-st7735
+pillow
