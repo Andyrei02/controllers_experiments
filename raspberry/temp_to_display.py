@@ -16,7 +16,7 @@ class Display:
         image = Image.new("1", (self.oled.width, self.oled.height))
         draw = ImageDraw.Draw(image)
         
-        draw.text((x, y), text, self.font, fill=255)
+        draw.text((x, y), text, font=self.font, fill=255)
         
         self.oled.image(image)
         self.oled.show()
