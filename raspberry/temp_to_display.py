@@ -47,25 +47,25 @@ def start_message(display):
     display.clear()
 
 def main():
-    # Initialize the OLED display (adjust width and height as needed)
-    WIDTH = 128
-    HEIGHT = 64
-    
-    # Initialize DHT11 sensor (GPIO4)
-    dht_device = adafruit_dht.DHT11(board.D4)
-    
-    # Uses I2C interface
-    i2c = board.I2C()  
-    oled = adafruit_ssd1306.SSD1306_I2C(WIDTH, HEIGHT, i2c)
-    
-    # Load custom font
-    font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 14)
+    try:
+        # Initialize the OLED display (adjust width and height as needed)
+        WIDTH = 128
+        HEIGHT = 64
+        
+        # Initialize DHT11 sensor (GPIO4)
+        dht_device = adafruit_dht.DHT11(board.D4)
+        
+        # Uses I2C interface
+        i2c = board.I2C()  
+        oled = adafruit_ssd1306.SSD1306_I2C(WIDTH, HEIGHT, i2c)
+        
+        # Load custom font
+        font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 14)
 
-    display = Display(oled, font=font)
-    
-    start_message(display)
+        display = Display(oled, font=font)
+        
+        start_message(display)
 
-    try:   
         run = True
         while run:
             temp, humidity = get_sensor_data(dht_device)
