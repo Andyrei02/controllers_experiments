@@ -28,9 +28,15 @@ class Display:
 
 
 def get_sensor_data(dht_device):
-    temperature = dht_device.temperature
-    humidity = dht_device.humidity
-    return temperature, humidity
+    while True:
+        try:
+            temperature = dht_device.temperature
+            humidity = dht_device.humidity
+            if temperature is not None and humidity is not None:
+                return temperature, humidity  # Return only valid data
+        except RuntimeError as e:
+            print(f"Sensor read error: {e}. Retrying...")
+        time.sleep(2)  # Wait before retrying
 
 
 def main():
@@ -62,6 +68,8 @@ def main():
             display.text(10, 10, temperature)
             display.text(10, 30, humidity)
             display.show()
+            
+            time.sleep(5)
     except KeyboardInterrupt:
         print("\n[INFO] Program interrupted! Clearing display...")
         display.clear()
