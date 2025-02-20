@@ -20,7 +20,8 @@ display = ST7735R(display_bus, width=128, height=160, rotation=90)  # Rotation 9
 
 # Create Display Context
 splash = displayio.Group()
-display.show(splash)
+# Set the root group for the display
+display.root_group = splash
 
 # Set Background Color
 color_bitmap = displayio.Bitmap(128, 160, 1)
