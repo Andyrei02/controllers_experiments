@@ -2,29 +2,25 @@ import time
 import board
 import digitalio
 import adafruit_st7735
-from PIL import Image, ImageDraw, ImageFont
 
-# Setup SPI interface
-spi = board.SPI()  # Hardware SPI
+# SPI Setup
+spi = board.SPI()  # Default SPI
+dc = digitalio.DigitalInOut(board.D24)  # Data/Command pin
+rst = digitalio.DigitalInOut(board.D25)  # Reset pin
 cs = digitalio.DigitalInOut(board.CE0)  # Chip Select
-dc = digitalio.DigitalInOut(board.D24)  # Data/Command
-rst = digitalio.DigitalInOut(board.D25)  # Reset
 
-# Initialize Display
-disp = adafruit_st7735.ST7735(spi, cs=cs, dc=dc, rst=rst, width=128, height=160)
+# Initialize display
+disp = adafruit_st7735.ST7735(spi, dc=dc, rst=rst, width=128, height=160)
 
-# Create a blank image
-image = Image.new("RGB", (128, 160), "black")
-draw = ImageDraw.Draw(image)
-
-# Load a font
-font = ImageFont.truetype("/usr/share/fonts/truetype/freefont/FreeSansBold.ttf", 18)
+# Clear screen with black
+disp.fill(0)
 
 # Display text
-draw.text((10, 60), "Hello, Pi!", font=font, fill="white")
+from adafruit_display_text import label
+import terminalio
+from adafruit_display_shapes.rect import Rect
 
-# Show image on display
-disp.image(image)
+text_area = label.Label(terminalio.FONT, text="Hello, World!", color=0xFFFF, x=10, y=10)
+disp.show(text_area)
 
-# Keep the text on screen
-time.sleep(10)
+time.sleep(5)  # Keep text visible for 5 seconds
