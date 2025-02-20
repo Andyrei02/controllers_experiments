@@ -6,6 +6,8 @@ from adafruit_st7735r import ST7735R
 from adafruit_display_text import label
 from adafruit_display_shapes.rect import Rect
 import terminalio
+import sys
+
 
 class TFT_Display:
     def __init__(self, width=161, height=130, rotation=90, text="Hello, World!", speed=0.05):
