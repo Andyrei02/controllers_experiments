@@ -1,0 +1,105 @@
+# Raspberry Pi Temperature and Humidity Display
+
+This project reads temperature and humidity data from a **DHT11 sensor** and displays it on an **SSD1306 OLED display** using a Raspberry Pi. The data updates periodically, and a custom font is used for rendering the text.
+
+---
+
+## 📌 **Hardware Requirements**
+
+- **Raspberry Pi** (Any model with GPIO support)
+- **DHT11 Sensor** (for temperature and humidity readings)
+- **SSD1306 OLED Display** (128x64 resolution, I2C interface)
+- **Jumper Wires**
+
+---
+
+## 🛠️ **Pin Connections**
+
+| Component       | Raspberry Pi GPIO |
+|----------------|------------------|
+| **DHT11 Data** | GPIO4 (Pin 7)    |
+| **OLED VCC**   | 3.3V (Pin 1)     |
+| **OLED GND**   | GND (Pin 6)      |
+| **OLED SCL**   | GPIO3 (Pin 5)    |
+| **OLED SDA**   | GPIO2 (Pin 3)    |
+
+---
+
+## 📦 **Software Requirements**
+
+Ensure your system has the necessary libraries installed. Install them using:
+
+```bash
+pip install adafruit-circuitpython-dht adafruit-circuitpython-ssd1306 pillow
+```
+
+Enable the I2C interface on your Raspberry Pi using:
+
+```bash
+sudo raspi-config
+# Navigate to Interfacing Options > I2C > Enable
+```
+
+---
+
+## 📜 **Code Explanation**
+
+### 1️⃣ **Display Class**
+- Initializes the OLED display with a custom or default font.
+- Provides methods to **display text**, **clear the screen**, and **update the display**.
+
+### 2️⃣ **get_sensor_data(dht_device)**
+- Reads **temperature** and **humidity** from the DHT11 sensor.
+- Retries if a read error occurs.
+
+### 3️⃣ **start_message(display)**
+- Shows a "Start Monitoring" message for 2 seconds before displaying sensor data.
+
+### 4️⃣ **main() Function**
+- Initializes the **DHT11** sensor and **OLED display**.
+- Fetches **temperature and humidity** continuously.
+- Updates the **OLED screen** every 5 seconds.
+
+---
+
+## ▶️ **How to Run**
+
+Ensure all connections are properly made, then execute:
+
+```bash
+python3 temp_to_display.py
+```
+
+To stop execution, press **CTRL+C**.
+
+---
+
+## ⛔ **Exit Handling**
+- If the script is **interrupted** (e.g., using CTRL+C), the display is cleared before exiting.
+
+---
+
+## 📝 **Example Output (Terminal & Display)**
+
+```bash
+Temp: 24C
+Humidity: 60%
+```
+
+📟 **OLED Display Example:**
+```
+Temp: 24C  
+Humidity: 60%  
+```
+
+---
+
+## 🎯 **Future Improvements**
+- Support for **DHT22** sensor.
+- Display **historical trends** (graph representation).
+- **Multiple font support** for customization.
+
+---
+
+Happy coding! 🚀
+
