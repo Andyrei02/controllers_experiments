@@ -18,7 +18,7 @@ tft_cs = board.CE0  # Chip Select
 tft_rst = board.D25  # Reset
 
 width = 161
-height = 129
+height = 130
 
 # Create display bus
 display_bus = displayio.FourWire(spi, command=tft_dc, chip_select=tft_cs, reset=tft_rst)
