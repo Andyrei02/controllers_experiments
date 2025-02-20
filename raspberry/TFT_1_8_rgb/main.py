@@ -8,14 +8,9 @@ displayio.release_displays()
 
 # SPI Setup
 spi = board.SPI()
-tft_dc = digitalio.DigitalInOut(board.D24)  # Data/Command
-tft_cs = digitalio.DigitalInOut(board.CE0)  # Chip Select
-tft_rst = digitalio.DigitalInOut(board.D25)  # Reset
-
-# Set as output
-tft_dc.switch_to_output()
-tft_cs.switch_to_output()
-tft_rst.switch_to_output()
+tft_dc = board.D24  # Data/Command
+tft_cs = board.CE0  # Chip Select
+tft_rst = board.D25  # Reset
 
 # Create display bus
 display_bus = displayio.FourWire(spi, command=tft_dc, chip_select=tft_cs, reset=tft_rst)
