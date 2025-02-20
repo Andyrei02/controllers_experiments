@@ -1,5 +1,6 @@
 adafruit-circuitpython-st7735
 adafruit-circuitpython-display-text
 adafruit-circuitpython-display_shapes
+adafruit-circuitpython-display
 adafruit-blinka
 pillow

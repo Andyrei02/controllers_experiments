@@ -3,6 +3,7 @@ import board
 import displayio
 import digitalio
 from adafruit_st7735r import ST7735R
+from adafruit_display_text.bitmap_font import BitmapFont  # Correct import
 from adafruit_display_text import label
 from adafruit_display_shapes.rect import Rect
 
@@ -40,8 +41,7 @@ bg_sprite = displayio.TileGrid(color_bitmap, pixel_shader=None)
 splash.append(bg_sprite)
 
 # Load the default font from the library
-from adafruit_display_text import bitmap_font
-font = bitmap_font.load_font("/usr/local/lib/python3.11/site-packages/adafruit_display_text/font/arial14.bdf")  # Adjust the path accordingly
+font = BitmapFont("/usr/local/lib/python3.11/site-packages/adafruit_display_text/font/arial14.bdf")  # Adjust the path accordingly
 
 # Create a label with the text
 text_area = label.Label(font, text="Hello, World!")
