@@ -24,7 +24,7 @@ height = 128
 display_bus = displayio.FourWire(spi, command=tft_dc, chip_select=tft_cs, reset=tft_rst)
 
 # Initialize Display
-display = ST7735R(display_bus, width=width, height=height)  # Rotation 90 if needed
+display = ST7735R(display_bus, width=width, height=height, rotation=90)  # Rotation 90 if needed
 # Create Display Context
 splash = displayio.Group()
 # Set the root group for the display
