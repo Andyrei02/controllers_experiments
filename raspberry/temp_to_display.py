@@ -74,12 +74,12 @@ def main():
             print(temperature)
             print(humidity)
             
+            display.clear()
             display.text(10, 10, temperature)
             display.text(10, 30, humidity)
             display.show()
             
             time.sleep(5)
-            display.clear()
     except KeyboardInterrupt:
         print("\n[INFO] Program interrupted! Clearing display...")
         display.clear()
