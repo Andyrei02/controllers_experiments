@@ -21,7 +21,7 @@ class Display:
         self.oled.image(image)
         self.oled.show()
     
-    def clear():
+    def clear(self):
         self.oled.fill(0)
         self.oled.show()
 
@@ -58,8 +58,8 @@ def main():
             print(temperature)
             print(humidity)
             
-            dispaly.show((10, 10), temperature)
-            dispaly.show((10, 30), humidity)
+            dispaly.show(10, 10, temperature)
+            dispaly.show(10, 30, humidity)
     except KeyboardInterrupt:
         print("\n[INFO] Program interrupted! Clearing display...")
         dispaly.clear()
