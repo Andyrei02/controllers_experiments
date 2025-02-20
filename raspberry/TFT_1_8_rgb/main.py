@@ -27,31 +27,20 @@ display.root_group = splash
 
 
 
-# Create an image with Pillow
-image = Image.new("RGB", (160, 128), (255, 0, 0))  # Red background (RGB format)
-draw = ImageDraw.Draw(image)
+# Create a bitmap for a red background (RGB565)
+color_bitmap = displayio.Bitmap(160, 128, 65536)  # 16-bit color depth
 
-# Optionally, draw text or additional shapes here
-# draw.text((10, 10), "Hello", fill="white")
+# Fill the bitmap with red color in RGB565
+red_color = (31 << 11) | (0 << 5) | (0)  # Red in RGB565 (5 bits for Red, 6 for Green, 5 for Blue)
 
-# Convert the Pillow image to a format compatible with displayio
-bitmap = displayio.Bitmap(160, 128, 65536)  # 16-bit color depth
 for y in range(128):
     for x in range(160):
-        r, g, b = image.getpixel((x, y))
-        # Convert RGB to 5-6-5 16-bit format (RGB565)
-        color = ((r >> 3) << 11) | ((g >> 2) << 5) | (b >> 3)
-        bitmap[x, y] = color
+        color_bitmap[x, y] = red_color
 
-# Create a palette for the 16-bit colors
-palette = displayio.Palette(1)
-palette[0] = 0xFF0000  # Red in RGB565 format
+# Create a TileGrid from the bitmap and add it to the splash group
+bg_sprite = displayio.TileGrid(color_bitmap, pixel_shader=None)
+splash.append(bg_sprite)
 
-# Create a TileGrid to display the bitmap
-tilegrid = displayio.TileGrid(bitmap, pixel_shader=palette)
-
-# Append the tilegrid to the splash group to display it
-splash.append(tilegrid)
 
 print("Displaying Red Background")
 
