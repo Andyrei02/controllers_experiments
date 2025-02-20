@@ -40,7 +40,7 @@ bg_sprite = displayio.TileGrid(color_bitmap, pixel_shader=None)
 splash.append(bg_sprite)
 
 # Load the font
-font = bitmap_font.load_font("/lib/font/arial.bdf")  # Change the path to your font file
+font = bitmap_font.load_font("/usr/share/fonts/truetype/freefont/FreeSans.ttf")  # Change the path to your font file
 
 # Create a label with the text you want to display
 text_area = label.Label(font, text="Hello, World!")
