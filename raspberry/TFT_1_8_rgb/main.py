@@ -16,7 +16,7 @@ tft_rst = board.D25  # Reset
 display_bus = displayio.FourWire(spi, command=tft_dc, chip_select=tft_cs, reset=tft_rst)
 
 # Initialize Display
-display = ST7735R(display_bus, width=160, height=128)  # Rotation 90 if needed
+display = ST7735R(display_bus, width=160, height=128, rotation=90)  # Rotation 90 if needed
 
 # Create Display Context
 splash = displayio.Group()
