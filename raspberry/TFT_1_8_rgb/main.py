@@ -7,10 +7,10 @@ from adafruit_st7735 import ST7735
 spi = board.SPI()
 # dc = digitalio.DigitalInOut(board.D24)  # Data/Command pin
 tft_dc = board.D25  # Reset pin
-tft_cs = board.CE0  # Chip Select
+tft_cs = board.D8  # Chip Select
 
 displayio.release_displays()
-display_bus = displayio.FourWire(spi, command=tft_dc, chip_select=tft_cs, reset=board.D9)
+display_bus = displayio.FourWire(spi, command=tft_dc, chip_select=tft_cs, reset=board.D25)
 
 display = ST7735(display_bus, width=128, height=160)
 
