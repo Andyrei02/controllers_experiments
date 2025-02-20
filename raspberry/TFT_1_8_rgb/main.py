@@ -34,7 +34,7 @@ display.root_group = splash
 
 
 # Set a background color
-color_bitmap = displayio.Bitmap(width, height, 65536)
+color_bitmap = displayio.Bitmap(width-1, height-1, 65536)
 red_color = (31 << 11) | (0 << 5) | (0)  # Red in RGB565
 for y in range(height):
     for x in range(width):
