@@ -48,7 +48,7 @@ def main():
     # Load custom font
     font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 14)
 
-    dispaly = Display(oled)
+    display = Display(oled)
 
     try:    
         run = True
@@ -59,12 +59,12 @@ def main():
             print(temperature)
             print(humidity)
             
-            dispaly.text(10, 10, temperature)
-            dispaly.text(10, 30, humidity)
+            display.text(10, 10, temperature)
+            display.text(10, 30, humidity)
             display.show()
     except KeyboardInterrupt:
         print("\n[INFO] Program interrupted! Clearing display...")
-        dispaly.clear()
+        display.clear()
         print("[INFO] Display cleared. Exiting.")
     
 
