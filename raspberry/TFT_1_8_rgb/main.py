@@ -17,8 +17,8 @@ tft_dc = board.D24  # Data/Command
 tft_cs = board.CE0  # Chip Select
 tft_rst = board.D25  # Reset
 
-width = 160
-height = 128
+width = 161
+height = 129
 
 # Create display bus
 display_bus = displayio.FourWire(spi, command=tft_dc, chip_select=tft_cs, reset=tft_rst)
@@ -34,7 +34,7 @@ display.root_group = splash
 
 
 # Set a background color
-color_bitmap = displayio.Bitmap(width+5, height+5, 65536)
+color_bitmap = displayio.Bitmap(width+1, height+1, 65536)
 red_color = (31 << 11) | (0 << 5) | (0)  # Red in RGB565
 for y in range(height):
     for x in range(width):
