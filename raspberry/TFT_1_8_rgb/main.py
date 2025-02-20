@@ -36,6 +36,9 @@ for y in range(128):
 bg_sprite = displayio.TileGrid(color_bitmap, pixel_shader=color_palette, x=0, y=0)
 splash.append(bg_sprite)
 
+# Clear the display before starting the loop
+display.refresh()
+
 print("Displaying Red Background")
 
 while True:
