@@ -1,31 +1,30 @@
+import time
 import board
-import displayio
-from adafruit_st7735 import ST7735
-
+import digitalio
+import adafruit_st7735
 
 # SPI Setup
 spi = board.SPI()
 dc = digitalio.DigitalInOut(board.D24)  # Data/Command pin
-tft_dc = board.D25  # Reset pin
-tft_cs = board.CE0  # Chip Select
+rst = digitalio.DigitalInOut(board.D25)  # Reset pin
+cs = digitalio.DigitalInOut(board.CE0)  # Chip Select
 
-displayio.release_displays()
-display_bus = displayio.FourWire(spi, command=tft_dc, chip_select=tft_cs, reset=board.D9)
+# Set pin directions
+dc.direction = digitalio.Direction.OUTPUT
+rst.direction = digitalio.Direction.OUTPUT
+cs.direction = digitalio.Direction.OUTPUT
 
-display = ST7735(display_bus, width=128, height=160)
+# Initialize display
+disp = adafruit_st7735.ST7735(spi, cs=cs, dc=dc, rst=rst)
 
-# Make the display context
-splash = displayio.Group()
-display.root_group = splash
+# Clear screen (black)
+disp.fill(0)
 
-color_bitmap = displayio.Bitmap(128, 128, 1)
-color_palette = displayio.Palette(1)
-color_palette[0] = 0xFF0000
+# Display text
+from adafruit_display_text import label
+import terminalio
 
-bg_sprite = displayio.TileGrid(color_bitmap,
-                               pixel_shader=color_palette,
-                               x=0, y=0)
-splash.append(bg_sprite)
+text_area = label.Label(terminalio.FONT, text="Hello, World!", color=0xFFFF, x=10, y=10)
+disp.show(text_area)
 
-while True:
-    pass
+time.sleep(5)  # Keep text visible for 5 seconds
