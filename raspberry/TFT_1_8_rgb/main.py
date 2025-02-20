@@ -1,31 +1,41 @@
 import board
 import displayio
-from adafruit_st7735 import ST7735
+import digitalio
+from adafruit_st7735r import ST7735R  # Make sure you use the correct driver!
 
+# Release previous displays
+displayio.release_displays()
 
 # SPI Setup
 spi = board.SPI()
-# dc = digitalio.DigitalInOut(board.D24)  # Data/Command pin
-tft_dc = board.D25  # Reset pin
-tft_cs = board.D8  # Chip Select
+tft_dc = digitalio.DigitalInOut(board.D24)  # Data/Command
+tft_cs = digitalio.DigitalInOut(board.CE0)  # Chip Select
+tft_rst = digitalio.DigitalInOut(board.D25)  # Reset
 
-displayio.release_displays()
-display_bus = displayio.FourWire(spi, command=tft_dc, chip_select=tft_cs, reset=board.D25)
+# Set as output
+tft_dc.switch_to_output()
+tft_cs.switch_to_output()
+tft_rst.switch_to_output()
 
-display = ST7735(display_bus, width=128, height=160)
+# Create display bus
+display_bus = displayio.FourWire(spi, command=tft_dc, chip_select=tft_cs, reset=tft_rst)
 
-# Make the display context
+# Initialize Display
+display = ST7735R(display_bus, width=128, height=160, rotation=90)  # Rotation 90 if needed
+
+# Create Display Context
 splash = displayio.Group()
 display.root_group = splash
 
-color_bitmap = displayio.Bitmap(128, 128, 1)
+# Set Background Color
+color_bitmap = displayio.Bitmap(128, 160, 1)
 color_palette = displayio.Palette(1)
-color_palette[0] = 0xFF0000
+color_palette[0] = 0xFF0000  # Red Background
 
-bg_sprite = displayio.TileGrid(color_bitmap,
-                               pixel_shader=color_palette,
-                               x=0, y=0)
+bg_sprite = displayio.TileGrid(color_bitmap, pixel_shader=color_palette, x=0, y=0)
 splash.append(bg_sprite)
+
+print("Displaying Red Background")
 
 while True:
     pass
