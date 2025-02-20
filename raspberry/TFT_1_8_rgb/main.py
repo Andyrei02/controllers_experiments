@@ -55,13 +55,18 @@ class TFT_Display:
 
     def animate_text(self):
         # Animate the text by moving it across the screen
-        while True:
-            for x in range(self.width):
-                self.text_area.x = x
-                time.sleep(self.speed)  # Adjust speed by changing the sleep duration
+        try:
+            while True:
+                for x in range(self.width):
+                    self.text_area.x = x
+                    time.sleep(self.speed)  # Adjust speed by changing the sleep duration
+        except KeyboardInterrupt:
+            # Gracefully exit on Ctrl+C
+            print("\nAnimation stopped. Exiting...")
+            sys.exit(0)
 
 
 # Example of how to use the class
 if __name__ == "__main__":
-    tft_display = TFT_Display(width=161, height=130, rotation=90, text="Hello, World!", speed=0.05)
+    tft_display = TFT_Display(width=161, height=130, rotation=90, text="Hello, Andrei!", speed=0.05)
     tft_display.animate_text()
