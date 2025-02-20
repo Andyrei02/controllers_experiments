@@ -9,7 +9,10 @@ import adafruit_ssd1306
 class Display:
     def __init__(self, oled, font_path=None):
         self.oled = oled
-        self.font = ImageFont.truetype(font_path) if font_path else ImageFont.load_default()
+        if font_path:
+            self.font = ImageFont.truetype(font_path)
+        else:
+            self.font = ImageFont.load_default()
         self.image = Image.new("1", (self.oled.width, self.oled.height))
         
     
