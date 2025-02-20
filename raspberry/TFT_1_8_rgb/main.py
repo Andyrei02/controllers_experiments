@@ -29,11 +29,11 @@ color_palette = displayio.Palette(1)
 color_palette[0] = 0xFF0000  # Red Background
 
 # Fill the bitmap with the color index
-for y in range(160):
-    for x in range(128):
+for y in range(128):
+    for x in range(160):
         color_bitmap[x, y] = 0  # Use the index 0, which corresponds to red in the palette
 
-bg_sprite = displayio.TileGrid(color_bitmap, pixel_shader=color_palette, x=10, y=10)
+bg_sprite = displayio.TileGrid(color_bitmap, pixel_shader=color_palette, x=0, y=0)
 splash.append(bg_sprite)
 
 print("Displaying Red Background")
