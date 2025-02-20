@@ -21,7 +21,7 @@ tft_rst = board.D25  # Reset
 display_bus = displayio.FourWire(spi, command=tft_dc, chip_select=tft_cs, reset=tft_rst)
 
 # Initialize Display
-display = ST7735R(display_bus, width=160, height=128)  # Rotation 90 if needed
+display = ST7735R(display_bus, width=128, height=160)  # Rotation 90 if needed
 # Create Display Context
 splash = displayio.Group()
 # Set the root group for the display
@@ -31,10 +31,10 @@ display.root_group = splash
 
 
 # Set a background color
-color_bitmap = displayio.Bitmap(160, 128, 65536)
+color_bitmap = displayio.Bitmap(128, 160, 65536)
 red_color = (31 << 11) | (0 << 5) | (0)  # Red in RGB565
-for y in range(128):
-    for x in range(160):
+for y in range(160):
+    for x in range(128):
         color_bitmap[x, y] = red_color
 
 bg_sprite = displayio.TileGrid(color_bitmap, pixel_shader=None)
@@ -51,6 +51,6 @@ splash.append(text_area)
 
 # Animation loop (moving text across the screen)
 while True:
-    for x in range(160):
+    for x in range(128):
         text_area.x = x
         time.sleep(0.02)  # Adjust speed by changing the sleep duration
