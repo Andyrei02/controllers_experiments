@@ -10,13 +10,15 @@ class Display:
     def __init__(self, oled, font_path=None, font_size=14):
         self.oled = oled
         self.font_size = font_size
-        if font_path:
+        if font_path and isinstance(font_path, str):
             try:
-                self.font = ImageFont.truetype(font_path, self.font_size)
+                self.font = ImageFont.truetype(font_path, font_size)
+                print(f"Loaded font: {font_path}")
             except IOError:
                 print(f"Error: Could not load font '{font_path}', using default.")
                 self.font = ImageFont.load_default()
         else:
+            print("Warning: Invalid font path provided. Using default font.")
             self.font = ImageFont.load_default()
 
         self.image = Image.new("1", (self.oled.width, self.oled.height))
@@ -69,9 +71,9 @@ def main():
         oled = adafruit_ssd1306.SSD1306_I2C(WIDTH, HEIGHT, i2c)
         
         # Load custom font
-        font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 14)
+        font_path = ImageFont.truetype("/usr/share/fonts/truetype/freefont/FreeSans.ttf", 14)
 
-        display = Display(oled, font_path=font)
+        display = Display(oled, font_path=font_path)
         
         start_message(display)
 
