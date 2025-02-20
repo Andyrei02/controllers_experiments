@@ -7,7 +7,7 @@ import adafruit_ssd1306
 
 
 class Display:
-    def __init__(self, oled, font_path=None, font_size=16):
+    def __init__(self, oled, font_path=None, font_size=20):
         self.oled = oled
         self.font_size = font_size
         if font_path and isinstance(font_path, str):
@@ -51,8 +51,8 @@ def get_sensor_data(dht_device):
 
 
 def start_message(display):
-    display.text(20, 10, "Start")
-    display.text(15, 30, "Monitoring")
+    display.text(30, 10, "Start")
+    display.text(25, 30, "Monitoring")
     display.show()
     time.sleep(2)
     display.clear()
