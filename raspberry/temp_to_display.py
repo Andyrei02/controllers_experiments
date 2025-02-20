@@ -10,12 +10,11 @@ class Display:
     def __init__(self, oled, font_path=None):
         self.oled = oled
         self.font = ImageFont.truetype(font_path) if font_path else ImageFont.load_default()
+        self.image = Image.new("1", (self.oled.width, self.oled.height))
         
     
     def text(self, x, y, text) :
-        self.image = Image.new("1", (self.oled.width, self.oled.height))
         draw = ImageDraw.Draw(self.image)
-        
         draw.text((x, y), text, font=self.font, fill=255)
     
     def show(self):
@@ -23,6 +22,7 @@ class Display:
         self.oled.show()
     
     def clear(self):
+        self.image = Image.new("1", (self.oled.width, self.oled.height))
         self.oled.fill(0)
         self.oled.show()
 
