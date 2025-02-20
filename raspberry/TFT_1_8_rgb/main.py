@@ -5,7 +5,7 @@ import digitalio
 from adafruit_st7735r import ST7735R
 from adafruit_display_text import label
 from adafruit_display_shapes.rect import Rect
-from adafruit_display_text import terminalio  # Import the terminal font
+import terminalio  # Import the terminal font
 
 
 # Release previous displays
@@ -40,10 +40,11 @@ for y in range(128):
 bg_sprite = displayio.TileGrid(color_bitmap, pixel_shader=None)
 splash.append(bg_sprite)
 
-# Create a label with the terminal font
-text_area = label.Label(terminalio.FONT, text="Hello, World!")
-text_area.x = 10  # Starting position on the x-axis
-text_area.y = 50  # Starting position on the y-axis
+# Create a label with text
+text = "Hello, World!"
+text_area = label.Label(terminalio.FONT, text=text)
+text_area.x = 10  # Set X position
+text_area.y = 10  # Set Y position
 
 # Add the label to the display group
 splash.append(text_area)
