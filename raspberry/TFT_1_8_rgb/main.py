@@ -53,4 +53,4 @@ splash.append(text_area)
 while True:
     for x in range(128):
         text_area.x = x
-        time.sleep(0.02)  # Adjust speed by changing the sleep duration
+        time.sleep(0.05)  # Adjust speed by changing the sleep duration
