@@ -12,13 +12,14 @@ class Display:
         self.font = ImageFont.truetype(font_path) if font_path else ImageFont.load_default()
         
     
-    def show(self, x, y, text) :
-        image = Image.new("1", (self.oled.width, self.oled.height))
+    def text(self, x, y, text) :
+        self.image = Image.new("1", (self.oled.width, self.oled.height))
         draw = ImageDraw.Draw(image)
         
         draw.text((x, y), text, font=self.font, fill=255)
-        
-        self.oled.image(image)
+    
+    def show(self):
+        self.oled.image(self.image)
         self.oled.show()
     
     def clear(self):
@@ -58,8 +59,9 @@ def main():
             print(temperature)
             print(humidity)
             
-            dispaly.show(10, 10, temperature)
-            dispaly.show(10, 30, humidity)
+            dispaly.text(10, 10, temperature)
+            dispaly.text(10, 30, humidity)
+            display.show()
     except KeyboardInterrupt:
         print("\n[INFO] Program interrupted! Clearing display...")
         dispaly.clear()
