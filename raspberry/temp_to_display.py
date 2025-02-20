@@ -14,7 +14,7 @@ class Display:
     
     def text(self, x, y, text) :
         self.image = Image.new("1", (self.oled.width, self.oled.height))
-        draw = ImageDraw.Draw(image)
+        draw = ImageDraw.Draw(self.image)
         
         draw.text((x, y), text, font=self.font, fill=255)
     
