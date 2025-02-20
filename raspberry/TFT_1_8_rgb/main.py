@@ -11,7 +11,7 @@ dc = digitalio.DigitalInOut(board.D24)  # Data/Command
 rst = digitalio.DigitalInOut(board.D25)  # Reset
 
 # Initialize Display
-disp = adafruit_st7735.ST7735R(spi, cs=cs, dc=dc, rst=rst, width=128, height=160)
+disp = adafruit_st7735.ST7735(spi, cs=cs, dc=dc, rst=rst, width=128, height=160)
 
 # Create a blank image
 image = Image.new("RGB", (128, 160), "black")
