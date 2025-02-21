@@ -22,19 +22,14 @@ display = ST7735R(display_bus, width=160, height=128)
 bitmap = displayio.Bitmap(160, 128, 65536)  # RGB565 max colors
 
 # Manually set a pure red pixel at (10,10)
-red_rgb565 = (31 << 11)  # Pure red in RGB565
-bitmap[10, 10] = red_rgb565  
+red_bgr565 = (31 << 11)  # Still using red in place of blue
+bitmap[10, 10] = red_bgr565
 
-# Fill entire screen with red
+# Fill screen using BGR565
 for y in range(128):
     for x in range(160):
-        bitmap[x, y] = red_rgb565  # Fill entire screen with red
+        bitmap[x, y] = red_bgr565
 
-# Create TileGrid to display the bitmap
-tile_grid = displayio.TileGrid(bitmap, pixel_shader=displayio.ColorConverter(input_colorspace=displayio.Colorspace.RGB565))
-group = displayio.Group()
-group.append(tile_grid)
-display.root_group = group
-
+display.show(bitmap)
 while True:
-    pass  # Keep showing the image
+    pass
