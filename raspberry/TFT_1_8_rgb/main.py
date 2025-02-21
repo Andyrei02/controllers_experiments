@@ -12,6 +12,9 @@ spi = board.SPI()  # Default SPI pins
 tft_dc = board.D24  # Data/Command pin
 tft_cs = board.CE0  # Chip Select
 tft_rst = board.D25  # Reset pin
+bl = digitalio.DigitalInOut(board.D26)  # Your backlight pin
+bl.direction = digitalio.Direction.OUTPUT
+bl.value = True  # Ensure full brightness
 
 # Create display bus
 display_bus = displayio.FourWire(spi, command=tft_dc, chip_select=tft_cs, reset=tft_rst)
