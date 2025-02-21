@@ -55,7 +55,7 @@ while running:
     pygame_screen.fill((0, 255, 0))  # Clear screen (black)
 
     # Draw a moving circle (example animation)
-    for i in range(HEIGHT/2):
+    for i in range(50):
         pygame_screen.fill((0, 0, 0))  # Clear previous frame
         pygame.draw.circle(pygame_screen, (255, 255, 0), (i * 2, HEIGHT // 2), 10)  # Yellow circle
 
