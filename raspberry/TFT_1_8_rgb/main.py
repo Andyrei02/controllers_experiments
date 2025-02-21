@@ -10,7 +10,11 @@ pygame.init()
 
 # Set Pygame drawing size (match your TFT size)
 WIDTH, HEIGHT = 161, 130
-pygame_screen = pygame.Surface((WIDTH, HEIGHT))  # Virtual screen
+pygame_screen = pygame.display.set_mode((WIDTH, HEIGHT))  # Create a visible Pygame window
+pygame.display.set_caption("TFT Display Simulation")
+
+# Virtual surface for drawing (same size as TFT)
+pygame_screen = pygame.Surface((WIDTH, HEIGHT))
 
 # Release previous displays
 displayio.release_displays()
@@ -49,21 +53,34 @@ def update_display():
     display.root_group = displayio.Group()
     display.root_group.append(tile_grid)
 
+
 # Main loop (Animation)
 running = True
+x = 0
 while running:
-    pygame_screen.fill((0, 255, 0))  # Clear screen (black)
+    pygame_surface.fill((0, 0, 0))  # Clear virtual surface
+    pygame_screen.fill((0, 0, 0))   # Clear desktop window
 
-    # Draw a moving circle (example animation)
-    for i in range(50):
-        pygame_screen.fill((0, 0, 0))  # Clear previous frame
-        pygame.draw.circle(pygame_screen, (255, 255, 0), (i * 2, HEIGHT // 2), 10)  # Yellow circle
+    # Draw a moving yellow circle (animation)
+    pygame.draw.circle(pygame_surface, (255, 255, 0), (x, HEIGHT // 2), 10)
+    pygame.draw.circle(pygame_screen, (255, 255, 0), (x, HEIGHT // 2), 10)  # Draw on desktop
 
-        update_display()  # Send frame to TFT
-        time.sleep(0.02)  # Adjust speed
+    # Send frame to TFT display
+    update_display()
 
+    # Update Pygame desktop window
+    pygame.display.flip()
+
+    # Move the circle
+    x += 2
+    if x > WIDTH:
+        x = 0  # Reset position
+
+    # Handle events (for closing the Pygame window)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+
+    time.sleep(0.05)  # Adjust animation speed
 
 pygame.quit()
