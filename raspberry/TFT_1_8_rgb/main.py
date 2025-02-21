@@ -4,15 +4,17 @@ import displayio
 import digitalio
 from adafruit_st7735r import ST7735R
 from adafruit_display_text import label
-from adafruit_display_shapes.rect import Rect
 import terminalio
 import sys
+import os
 
 
 class TFT_Display:
-    def __init__(self, width=161, height=130, rotation=90, text="Hello, World!", speed=0.05):
+    def __init__(self, width=161, height=130, rotation=90, text="25°C", text2="60%", speed=0.05):
         # Release any previous displays
         displayio.release_displays()
+        current_path = os.path.abspath(os.getcwd())
+        self.temp_ico_path = os.path.join(current_path, "temp_icon.bmp")
 
         # SPI setup
         self.spi = board.SPI()
@@ -23,6 +25,7 @@ class TFT_Display:
         self.width = width
         self.height = height
         self.text = text
+        self.text2 = text2
         self.speed = speed
 
         # Create display bus
@@ -35,17 +38,26 @@ class TFT_Display:
         self.splash = displayio.Group()
         self.display.root_group = self.splash
 
-        # Set the background color (Red in RGB565)
+        # Set the background color (Red)
         self.set_background_color()
 
-        # Create a label with text
-        self.text_area = label.Label(terminalio.FONT, text=self.text)
-        self.text_area.x = 10  # Set initial X position
-        self.text_area.y = 10  # Set initial Y position
-        self.splash.append(self.text_area)
+        # Create labels for temperature and humidity
+        self.text_area1 = label.Label(terminalio.FONT, text=self.text, color=0xFFFF)  # White text
+        self.text_area1.x = 50  # Position next to icon
+        self.text_area1.y = 30
+
+        self.text_area2 = label.Label(terminalio.FONT, text=self.text2, color=0xFFFF)
+        self.text_area2.x = 50
+        self.text_area2.y = 70
+
+        self.splash.append(self.text_area1)
+        self.splash.append(self.text_area2)
+
+        # Load and display icons
+        self.load_icons()
 
     def set_background_color(self):
-        # Set a red background color
+        """Fill the background with a solid color."""
         color_bitmap = displayio.Bitmap(self.width, self.height, 65536)
         red_color = (31 << 11) | (0 << 5) | (0)  # Red in RGB565
         for y in range(self.height):
@@ -55,20 +67,40 @@ class TFT_Display:
         bg_sprite = displayio.TileGrid(color_bitmap, pixel_shader=None)
         self.splash.append(bg_sprite)
 
+    def load_icons(self):
+        """Load and display BMP icons."""
+        try:
+            # Temperature icon
+            temp_bitmap = displayio.OnDiskBitmap(self.temp_ico_path)  # Path to your BMP
+            temp_tilegrid = displayio.TileGrid(temp_bitmap, pixel_shader=temp_bitmap.pixel_shader)
+            temp_tilegrid.x = 10
+            temp_tilegrid.y = 20
+            self.splash.append(temp_tilegrid)
+
+            # Humidity icon
+            humid_bitmap = displayio.OnDiskBitmap(self.temp_ico_path)
+            humid_tilegrid = displayio.TileGrid(humid_bitmap, pixel_shader=humid_bitmap.pixel_shader)
+            humid_tilegrid.x = 10
+            humid_tilegrid.y = 60
+            self.splash.append(humid_tilegrid)
+
+        except Exception as e:
+            print("Error loading icons:", e)
+
     def animate_text(self):
-        # Animate the text by moving it across the screen
+        """Move text for animation effect."""
         try:
             while True:
-                for x in range(self.width):
-                    self.text_area.x = x
-                    time.sleep(self.speed)  # Adjust speed by changing the sleep duration
+                for x in range(self.width - 50):
+                    self.text_area1.x = 50 + x
+                    self.text_area2.x = 50 + x
+                    time.sleep(self.speed)  # Adjust speed
         except KeyboardInterrupt:
-            # Gracefully exit on Ctrl+C
             print("\nAnimation stopped. Exiting...")
             sys.exit(0)
 
 
-# Example of how to use the class
+# Example usage
 if __name__ == "__main__":
-    tft_display = TFT_Display(width=161, height=130, rotation=90, text="Hello, Andrei!", speed=0.05)
+    tft_display = TFT_Display(text="25°C", text2="60%")
     tft_display.animate_text()
