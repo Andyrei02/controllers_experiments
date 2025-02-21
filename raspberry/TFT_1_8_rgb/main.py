@@ -2,105 +2,68 @@ import time
 import board
 import displayio
 import digitalio
+import pygame
 from adafruit_st7735r import ST7735R
-from adafruit_display_text import label
-import terminalio
-import sys
-import os
 
+# Initialize Pygame
+pygame.init()
 
-class TFT_Display:
-    def __init__(self, width=161, height=130, rotation=90, text="25°C", text2="60%", speed=0.05):
-        # Release any previous displays
-        displayio.release_displays()
-        current_path = os.path.abspath(os.getcwd())
-        self.temp_ico_path = os.path.join(current_path, "temp_icon.bmp")
+# Set Pygame drawing size (match your TFT size)
+WIDTH, HEIGHT = 161, 130
+pygame_screen = pygame.Surface((WIDTH, HEIGHT))  # Virtual screen
 
-        # SPI setup
-        self.spi = board.SPI()
-        self.tft_dc = board.D24  # Data/Command pin
-        self.tft_cs = board.CE0  # Chip Select pin
-        self.tft_rst = board.D25  # Reset pin
+# Release previous displays
+displayio.release_displays()
 
-        self.width = width
-        self.height = height
-        self.text = text
-        self.text2 = text2
-        self.speed = speed
+# SPI Setup
+spi = board.SPI()
+tft_dc = board.D24
+tft_cs = board.CE0
+tft_rst = board.D25
 
-        # Create display bus
-        self.display_bus = displayio.FourWire(self.spi, command=self.tft_dc, chip_select=self.tft_cs, reset=self.tft_rst)
+# Create display bus
+display_bus = displayio.FourWire(spi, command=tft_dc, chip_select=tft_cs, reset=tft_rst)
 
-        # Initialize Display
-        self.display = ST7735R(self.display_bus, width=self.width, height=self.height, rotation=rotation)
-        
-        # Create Display Context
-        self.splash = displayio.Group()
-        self.display.root_group = self.splash
+# Initialize Display
+display = ST7735R(display_bus, width=WIDTH, height=HEIGHT, rotation=90)
 
-        # Set the background color (Red)
-        self.set_background_color()
+# Function to update TFT with Pygame surface
+def update_display():
+    global pygame_screen
 
-        # Create labels for temperature and humidity
-        self.text_area1 = label.Label(terminalio.FONT, text=self.text, color=0xFFFF)  # White text
-        self.text_area1.x = 50  # Position next to icon
-        self.text_area1.y = 30
+    # Convert Pygame surface to raw pixels
+    pixel_data = pygame.image.tostring(pygame_screen, "RGB")  # Convert to raw RGB data
 
-        self.text_area2 = label.Label(terminalio.FONT, text=self.text2, color=0xFFFF)
-        self.text_area2.x = 50
-        self.text_area2.y = 70
+    # Create a Bitmap to store pixel data
+    bitmap = displayio.Bitmap(WIDTH, HEIGHT, 65536)
+    
+    # Fill the bitmap with pixel data
+    for y in range(HEIGHT):
+        for x in range(WIDTH):
+            r, g, b = pixel_data[(y * WIDTH + x) * 3:(y * WIDTH + x + 1) * 3]
+            color = ((r >> 3) << 11) | ((g >> 2) << 5) | (b >> 3)  # Convert to RGB565
+            bitmap[x, y] = color
+    
+    # Display the new frame
+    tile_grid = displayio.TileGrid(bitmap, pixel_shader=None)
+    display.root_group = displayio.Group()
+    display.root_group.append(tile_grid)
 
-        self.splash.append(self.text_area1)
-        self.splash.append(self.text_area2)
+# Main loop (Animation)
+running = True
+while running:
+    pygame_screen.fill((0, 0, 0))  # Clear screen (black)
 
-        # Load and display icons
-        self.load_icons()
+    # Draw a moving circle (example animation)
+    for i in range(50):
+        pygame_screen.fill((0, 0, 0))  # Clear previous frame
+        pygame.draw.circle(pygame_screen, (255, 255, 0), (i * 2, HEIGHT // 2), 10)  # Yellow circle
 
-    def set_background_color(self):
-        """Fill the background with a solid color."""
-        color_bitmap = displayio.Bitmap(self.width, self.height, 65536)
-        red_color = (31 << 11) | (0 << 5) | (0)  # Red in RGB565
-        for y in range(self.height):
-            for x in range(self.width):
-                color_bitmap[x, y] = red_color
+        update_display()  # Send frame to TFT
+        time.sleep(0.05)  # Adjust speed
 
-        bg_sprite = displayio.TileGrid(color_bitmap, pixel_shader=None)
-        self.splash.append(bg_sprite)
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
 
-    def load_icons(self):
-        """Load and display BMP icons."""
-        try:
-            # Temperature icon
-            temp_bitmap = displayio.OnDiskBitmap(self.temp_ico_path)  # Path to your BMP
-            temp_tilegrid = displayio.TileGrid(temp_bitmap, pixel_shader=temp_bitmap.pixel_shader)
-            temp_tilegrid.x = 10
-            temp_tilegrid.y = 20
-            self.splash.append(temp_tilegrid)
-
-            # Humidity icon
-            humid_bitmap = displayio.OnDiskBitmap(self.temp_ico_path)
-            humid_tilegrid = displayio.TileGrid(humid_bitmap, pixel_shader=humid_bitmap.pixel_shader)
-            humid_tilegrid.x = 10
-            humid_tilegrid.y = 60
-            self.splash.append(humid_tilegrid)
-
-        except Exception as e:
-            print("Error loading icons:", e)
-
-    def animate_text(self):
-        """Move text for animation effect."""
-        try:
-            while True:
-                for x in range(self.width - 50):
-                    self.text_area1.x = 50 + x
-                    self.text_area2.x = 50 + x
-                    time.sleep(self.speed)  # Adjust speed
-        except KeyboardInterrupt:
-            print("\nAnimation stopped. Exiting...")
-            sys.exit(0)
-
-
-# Example usage
-if __name__ == "__main__":
-    tft_display = TFT_Display(text="25°C", text2="60%")
-    tft_display.animate_text()
+pygame.quit()

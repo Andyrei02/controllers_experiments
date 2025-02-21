@@ -4,3 +4,5 @@ adafruit-circuitpython-display_shapes
 adafruit-circuitpython-display
 adafruit-blinka
 pillow
+
+pygame
