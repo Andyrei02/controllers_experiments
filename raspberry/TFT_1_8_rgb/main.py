@@ -9,7 +9,7 @@ from adafruit_st7735r import ST7735R
 pygame.init()
 
 # Set Pygame drawing size (match your TFT size)
-WIDTH, HEIGHT = 161, 130
+WIDTH, HEIGHT = 160, 128
 pygame_screen = pygame.display.set_mode((WIDTH, HEIGHT))  # Create a visible Pygame window
 pygame.display.set_caption("TFT Display Simulation")
 
@@ -29,36 +29,38 @@ tft_rst = board.D25
 display_bus = displayio.FourWire(spi, command=tft_dc, chip_select=tft_cs, reset=tft_rst)
 
 # Initialize Display
-display = ST7735R(display_bus, width=WIDTH, height=HEIGHT, rotation=90)
+display = ST7735R(display_bus, width=WIDTH, height=HEIGHT)
+
 
 # Function to update TFT with Pygame surface
 def update_display():
     global pygame_surface
 
     # Convert Pygame surface to raw pixels
-    pixel_data = pygame.image.tostring(pygame_surface, "RGB")  # Convert to raw RGB data
+    pixel_data = pygame.surfarray.pixels3d(pygame_surface)
 
     # Create a Bitmap to store pixel data
     bitmap = displayio.Bitmap(WIDTH, HEIGHT, 65536)
     
-    # Fill the bitmap with pixel data
+    # Fill the bitmap with correctly converted RGB565 colors
     for y in range(HEIGHT):
         for x in range(WIDTH):
-            r, g, b = pixel_data[(y * WIDTH + x) * 3:(y * WIDTH + x + 1) * 3]
-            color = ((r >> 3) << 11) | ((g >> 2) << 5) | (b >> 3)  # Convert to RGB565
+            r, g, b = pixel_data[x, y]  # Get RGB values
+            color = ((b & 0xF8) << 8) | ((g & 0xFC) << 3) | (r >> 3)  # Swap R and B
             bitmap[x, y] = color
-    
+
     # Display the new frame
     tile_grid = displayio.TileGrid(bitmap, pixel_shader=None)
     display.root_group = displayio.Group()
     display.root_group.append(tile_grid)
 
 
+
 # Main loop (Animation)
 running = True
 x = 0
 while running:
-    pygame_surface.fill((0, 0, 0))  # Clear virtual surface
+    pygame_surface.fill((0, 255, 0))  # Clear virtual surface
     pygame_screen.fill((0, 0, 0))   # Clear desktop window
 
     # Draw a moving yellow circle (animation)
