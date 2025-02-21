@@ -6,3 +6,4 @@ adafruit-blinka
 pillow
 
 pygame
+numpy
