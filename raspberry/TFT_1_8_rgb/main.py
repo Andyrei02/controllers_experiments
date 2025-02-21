@@ -29,7 +29,7 @@ tft_rst = board.D25
 display_bus = displayio.FourWire(spi, command=tft_dc, chip_select=tft_cs, reset=tft_rst)
 
 # Initialize Display
-display = ST7735R(display_bus, width=WIDTH, height=HEIGHT)
+display = ST7735R(display_bus, width=WIDTH, height=HEIGHT, rotation=90)
 
 
 # Function to update TFT with Pygame surface
