@@ -60,7 +60,7 @@ def update_display():
 running = True
 x = 0
 while running:
-    pygame_surface.fill((255, 0, 0))  # Clear virtual surface
+    pygame_surface.fill((0, 255, 0))  # Clear virtual surface
     pygame_screen.fill((0, 0, 0))   # Clear desktop window
 
     # Draw a moving yellow circle (animation)
