@@ -22,7 +22,7 @@ tft_rst = board.D25
 
 # Create display bus
 display_bus = displayio.FourWire(spi, command=tft_dc, chip_select=tft_cs, reset=tft_rst)
-display = ST7735R(display_bus, width=WIDTH, height=HEIGHT)
+display = ST7735R(display_bus, width=WIDTH, height=HEIGHT, rotation=90)
 
 # Force display to GBR mode (if needed)
 display.bus.send(0x36, b'\x00')  # Try b'\x00' for RGB, b'\x08' for BGR
