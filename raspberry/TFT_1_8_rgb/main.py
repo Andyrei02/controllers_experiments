@@ -25,7 +25,7 @@ tft_rst = board.D25
 display_bus = displayio.FourWire(spi, command=tft_dc, chip_select=tft_cs, reset=tft_rst)
 
 # Initialize Display
-display = ST7735R(display_bus, width=WIDTH, height=HEIGHT, rotation=90)
+display = ST7735R(display_bus, width=WIDTH, height=HEIGHT)
 
 # Function to update TFT with Pygame surface
 def update_display():
@@ -60,7 +60,7 @@ while running:
         pygame.draw.circle(pygame_screen, (255, 255, 0), (i * 2, HEIGHT // 2), 10)  # Yellow circle
 
         update_display()  # Send frame to TFT
-        time.sleep(0.05)  # Adjust speed
+        time.sleep(0.02)  # Adjust speed
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
