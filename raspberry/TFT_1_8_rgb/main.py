@@ -14,7 +14,7 @@ pygame_screen = pygame.display.set_mode((WIDTH, HEIGHT))  # Create a visible Pyg
 pygame.display.set_caption("TFT Display Simulation")
 
 # Virtual surface for drawing (same size as TFT)
-pygame_screen = pygame.Surface((WIDTH, HEIGHT))
+pygame_surface = pygame.Surface((WIDTH, HEIGHT))
 
 # Release previous displays
 displayio.release_displays()
@@ -33,10 +33,10 @@ display = ST7735R(display_bus, width=WIDTH, height=HEIGHT, rotation=90)
 
 # Function to update TFT with Pygame surface
 def update_display():
-    global pygame_screen
+    global pygame_surface
 
     # Convert Pygame surface to raw pixels
-    pixel_data = pygame.image.tostring(pygame_screen, "RGB")  # Convert to raw RGB data
+    pixel_data = pygame.image.tostring(pygame_surface, "RGB")  # Convert to raw RGB data
 
     # Create a Bitmap to store pixel data
     bitmap = displayio.Bitmap(WIDTH, HEIGHT, 65536)
