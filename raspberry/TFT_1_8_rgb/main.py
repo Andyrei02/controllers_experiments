@@ -40,13 +40,13 @@ def update_display():
     pixel_data = pygame.surfarray.pixels3d(pygame_surface)
 
     # Create a Bitmap to store pixel data
-    bitmap = displayio.Bitmap(WIDTH, HEIGHT, 65536)
+    bitmap = displayio.Bitmap(WIDTH, HEIGHT, 256)
     
     # Fill the bitmap with correctly converted RGB565 colors
     for y in range(HEIGHT):
         for x in range(WIDTH):
             r, g, b = pixel_data[x, y]  # Get RGB values
-            color = ((r & 0xF8) << 8) | ((b & 0xFC) << 3) | (g >> 3)
+            color = ((r & 0xF8) << 8) | ((g & 0xFC) << 3) | (b >> 3)
             bitmap[x, y] = color
 
     # Display the new frame
