@@ -23,9 +23,9 @@ display_bus = displayio.FourWire(spi, command=tft_dc, chip_select=tft_cs, reset=
 display = ST7735R(display_bus, width=160, height=128)
 
 # **STEP 1: TEST PURE RED USING RGB565**
-red_rgb565 = 0xF800  # Expected to be RED
+red_bgr565 = 0x001F  # Expected to be RED in BGR mode
 group = displayio.Group()
-red_rect = Rect(0, 0, 160, 128, fill=red_rgb565)
+red_rect = Rect(0, 0, 160, 128, fill=red_bgr565)
 group.append(red_rect)
 display.root_group = group
 
