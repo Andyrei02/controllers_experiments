@@ -47,7 +47,9 @@ def update_display():
         for x in range(WIDTH):
             r, g, b = pixel_data[x, y]  # Get RGB values
             color = ((r & 0xF8) << 8) | ((g & 0xFC) << 3) | (b >> 3)
-            bitmap[x, y] = color
+            bitmap[0, 0] = (31 << 11)  # Pure red in RGB565
+            bitmap[1, 1] = (0 << 11) | (63 << 5) | (0)  # Pure green
+            bitmap[2, 2] = (0 << 11) | (0 << 5) | 31  # Pure blue
 
     # Display the new frame
     tile_grid = displayio.TileGrid(bitmap, pixel_shader=None)
