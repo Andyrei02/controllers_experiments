@@ -46,7 +46,7 @@ def update_display():
     for y in range(HEIGHT):
         for x in range(WIDTH):
             r, g, b = pixel_data[x, y]  # Get RGB values
-            color = ((r & 0xF8) << 8) | ((g & 0xFC) << 3) | (b >> 3)
+            color = ((r & 0xF8) << 8) | ((b & 0xFC) << 3) | (g >> 3)
             bitmap[x, y] = color
 
     # Display the new frame
